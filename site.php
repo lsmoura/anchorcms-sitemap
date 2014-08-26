@@ -1,3 +1,4 @@
+<?php
 /**
  * Site Maps
  * Add the snippet below to anchor/routes/site.php,
@@ -25,6 +26,14 @@ Route::get('sitemap.xml', function() {
     $sitemap .= '<url>';
     $sitemap .= '<loc>' . Uri::full(Registry::get('posts_page')->slug . '/' . $article->slug) . '</loc>';
     $sitemap .= '<lastmod>' . date("Y-m-d", strtotime($article->created)) . '</lastmod>';
+    $sitemap .= '</url>';
+  }
+
+  $query = Page::where('status', '=', 'published')->sort(Base::table('pages.name'), 'desc');
+  foreach($query->get() as $page) {
+    $sitemap .= '<url>';
+    $sitemap .= '<loc>' . Uri::full(Registry::get('posts_page')->slug . '/' . $page->slug) . '</loc>';
+    //$sitemap .= '<lastmod>' . date("Y-m-d", strtotime($article->created)) . '</lastmod>';	// Pages does not have a lastmod.
     $sitemap .= '</url>';
   }
 
