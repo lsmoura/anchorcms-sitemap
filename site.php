@@ -32,7 +32,7 @@ Route::get('sitemap.xml', function() {
   $query = Page::where('status', '=', 'published')->sort(Base::table('pages.name'), 'desc');
   foreach($query->get() as $page) {
     $sitemap .= '<url>';
-    $sitemap .= '<loc>' . Uri::full(Registry::get('posts_page')->slug . '/' . $page->slug) . '</loc>';
+    $sitemap .= '<loc>' . full_url() . $page->slug . '</loc>';
     //$sitemap .= '<lastmod>' . date("Y-m-d", strtotime($article->created)) . '</lastmod>';	// Pages does not have a lastmod.
     $sitemap .= '</url>';
   }
